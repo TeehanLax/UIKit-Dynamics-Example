@@ -1,5 +1,5 @@
 //
-//  TLViewController.h
+//  TLContainmentViewController.h
 //  UIKit-Dynamics-Example
 //
 //  Created by Ash Furrow on 2013-07-09.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TLViewController : UIViewController
+@interface TLContainmentViewController : UIViewController
 
 @end

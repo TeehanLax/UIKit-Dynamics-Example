@@ -14,13 +14,14 @@
 		5EB1BDD7178C5258009CC60C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1BDD6178C5258009CC60C /* main.m */; };
 		5EB1BDDB178C5258009CC60C /* TLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1BDDA178C5258009CC60C /* TLAppDelegate.m */; };
 		5EB1BDDE178C5258009CC60C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EB1BDDC178C5258009CC60C /* Main.storyboard */; };
-		5EB1BDE1178C5258009CC60C /* TLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1BDE0178C5258009CC60C /* TLViewController.m */; };
 		5EB1BDE3178C5258009CC60C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EB1BDE2178C5258009CC60C /* Images.xcassets */; };
 		5EB1BDEA178C5258009CC60C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB1BDE9178C5258009CC60C /* XCTest.framework */; };
 		5EB1BDEB178C5258009CC60C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB1BDCA178C5258009CC60C /* Foundation.framework */; };
 		5EB1BDEC178C5258009CC60C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB1BDCE178C5258009CC60C /* UIKit.framework */; };
 		5EB1BDF4178C5258009CC60C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5EB1BDF2178C5258009CC60C /* InfoPlist.strings */; };
 		5EB1BDF6178C5258009CC60C /* UIKit_Dynamics_ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1BDF5178C5258009CC60C /* UIKit_Dynamics_ExampleTests.m */; };
+		5EB1BE01178C5344009CC60C /* TLContainmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB1BE00178C5344009CC60C /* TLContainmentViewController.m */; };
+		5EF70524178C627700CAEB15 /* TLContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EF70523178C627700CAEB15 /* TLContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +46,16 @@
 		5EB1BDD9178C5258009CC60C /* TLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLAppDelegate.h; sourceTree = "<group>"; };
 		5EB1BDDA178C5258009CC60C /* TLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLAppDelegate.m; sourceTree = "<group>"; };
 		5EB1BDDD178C5258009CC60C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5EB1BDDF178C5258009CC60C /* TLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLViewController.h; sourceTree = "<group>"; };
-		5EB1BDE0178C5258009CC60C /* TLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLViewController.m; sourceTree = "<group>"; };
 		5EB1BDE2178C5258009CC60C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5EB1BDE8178C5258009CC60C /* UIKit-Dynamics-ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UIKit-Dynamics-ExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EB1BDE9178C5258009CC60C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5EB1BDF1178C5258009CC60C /* UIKit-Dynamics-ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UIKit-Dynamics-ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		5EB1BDF3178C5258009CC60C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5EB1BDF5178C5258009CC60C /* UIKit_Dynamics_ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIKit_Dynamics_ExampleTests.m; sourceTree = "<group>"; };
+		5EB1BDFF178C5344009CC60C /* TLContainmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLContainmentViewController.h; sourceTree = "<group>"; };
+		5EB1BE00178C5344009CC60C /* TLContainmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLContainmentViewController.m; sourceTree = "<group>"; };
+		5EF70522178C627700CAEB15 /* TLContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLContentViewController.h; sourceTree = "<group>"; };
+		5EF70523178C627700CAEB15 /* TLContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLContentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +118,10 @@
 				5EB1BDD9178C5258009CC60C /* TLAppDelegate.h */,
 				5EB1BDDA178C5258009CC60C /* TLAppDelegate.m */,
 				5EB1BDDC178C5258009CC60C /* Main.storyboard */,
-				5EB1BDDF178C5258009CC60C /* TLViewController.h */,
-				5EB1BDE0178C5258009CC60C /* TLViewController.m */,
+				5EB1BDFF178C5344009CC60C /* TLContainmentViewController.h */,
+				5EB1BE00178C5344009CC60C /* TLContainmentViewController.m */,
+				5EF70522178C627700CAEB15 /* TLContentViewController.h */,
+				5EF70523178C627700CAEB15 /* TLContentViewController.m */,
 				5EB1BDE2178C5258009CC60C /* Images.xcassets */,
 				5EB1BDD1178C5258009CC60C /* Supporting Files */,
 			);
@@ -250,8 +255,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EB1BDE1178C5258009CC60C /* TLViewController.m in Sources */,
 				5EB1BDDB178C5258009CC60C /* TLAppDelegate.m in Sources */,
+				5EB1BE01178C5344009CC60C /* TLContainmentViewController.m in Sources */,
+				5EF70524178C627700CAEB15 /* TLContentViewController.m in Sources */,
 				5EB1BDD7178C5258009CC60C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,6 +461,7 @@
 				5EB1BDFB178C5258009CC60C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5EB1BDFC178C5258009CC60C /* Build configuration list for PBXNativeTarget "UIKit-Dynamics-ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -463,6 +470,7 @@
 				5EB1BDFE178C5258009CC60C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
