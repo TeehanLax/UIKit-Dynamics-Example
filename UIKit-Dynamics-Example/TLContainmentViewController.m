@@ -9,9 +9,10 @@
 #import "TLContainmentViewController.h"
 #import "TLContentViewController.h"
 
-@interface TLContainmentViewController () <TLContentViewControllerDelegate, UIDynamicAnimatorDelegate>
+@interface TLContainmentViewController () <TLContentViewControllerDelegate, UIDynamicAnimatorDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *screenEdgeGestureRecognizer;
+@property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *leftScreenEdgeGestureRecognizer;
+@property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *rightScreenEdgeGestureRecognizer;
 
 @property (nonatomic, strong) UINavigationController *contentNavigationViewController;
 @property (nonatomic, strong) UIViewController *menuViewController;
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) UIPushBehavior* pushBehavior;
 @property (nonatomic, strong) UIAttachmentBehavior *panAttachmentBehaviour;
 
+@property (nonatomic, assign, getter = isMenuOpen) BOOL menuOpen;
+
 @end
 
 @implementation TLContainmentViewController
@@ -29,9 +32,15 @@
 {
     [super viewDidLoad];
     
-    self.screenEdgeGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleScreenEdgePan:)];
-    self.screenEdgeGestureRecognizer.edges = UIRectEdgeLeft;
-    [self.view addGestureRecognizer:self.screenEdgeGestureRecognizer];
+    self.leftScreenEdgeGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleScreenEdgePan:)];
+    self.leftScreenEdgeGestureRecognizer.edges = UIRectEdgeLeft;
+    self.leftScreenEdgeGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.leftScreenEdgeGestureRecognizer];
+    
+    self.rightScreenEdgeGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleScreenEdgePan:)];
+    self.rightScreenEdgeGestureRecognizer.edges = UIRectEdgeRight;
+    self.rightScreenEdgeGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:self.rightScreenEdgeGestureRecognizer];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -61,11 +70,8 @@
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     
     UICollisionBehavior *collisionBehaviour = [[UICollisionBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
-    // Need to create a boundary that lies to the left of the left edge of the screen.
-    [collisionBehaviour addBoundaryWithIdentifier:@"leftEdge" fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(0, CGRectGetHeight(self.view.bounds))];
-    [collisionBehaviour addBoundaryWithIdentifier:@"topEdge" fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(CGRectGetWidth(self.view.bounds), 0)];
-    [collisionBehaviour addBoundaryWithIdentifier:@"bottomEdge" fromPoint:CGPointMake(0, CGRectGetHeight(self.view.bounds)) toPoint:CGPointMake(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
-//    [collisionBehaviour addBoundaryWithIdentifier:@"rightEdge" fromPoint:CGPointMake(CGRectGetWidth(self.view.bounds) + 300, 0) toPoint:CGPointMake(CGRectGetWidth(self.view.bounds) + 300, CGRectGetHeight(self.view.bounds))];
+    // Need to create a boundary that lies to the left off of the right edge of the screen.
+    [collisionBehaviour setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(0, 0, 0, -280)];
     [self.animator addBehavior:collisionBehaviour];
     
     self.gravityBehaviour = [[UIGravityBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
@@ -81,6 +87,19 @@
     UIDynamicItemBehavior *itemBehaviour = [[UIDynamicItemBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
     itemBehaviour.elasticity = 0.45f;
     [self.animator addBehavior:itemBehaviour];
+}
+
+#pragma mark - UIGestureRecognizerDelegate Methods
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (gestureRecognizer == self.leftScreenEdgeGestureRecognizer && self.isMenuOpen == NO) {
+        return YES;
+    }
+    else if (gestureRecognizer == self.rightScreenEdgeGestureRecognizer == self.isMenuOpen == YES) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Gesture Recognizer Methods
@@ -105,12 +124,19 @@
         
         if (velocity.x > 0) {
             // Open menu
+            self.menuOpen = YES;
             
+            self.gravityBehaviour.xComponent = 1.0f;
         }
         else {
             // Close menu
-            [self.animator addBehavior:self.gravityBehaviour];
+            self.menuOpen = NO;
+            
+            self.gravityBehaviour.xComponent = -1.0f;
         }
+        
+        [self.animator addBehavior:self.gravityBehaviour];
+        
         [self.pushBehavior setXComponent:velocity.x/10.0f yComponent:0];
         self.pushBehavior.active = YES;
     }
