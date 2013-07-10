@@ -9,13 +9,14 @@
 #import "TLContainmentViewController.h"
 #import "TLContentViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @interface TLContainmentViewController () <TLContentViewControllerDelegate, UIDynamicAnimatorDelegate, UIGestureRecognizerDelegate>
+
+@property (nonatomic, weak) IBOutlet UIView *contentView;
 
 @property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *leftScreenEdgeGestureRecognizer;
 @property (nonatomic, strong) UIScreenEdgePanGestureRecognizer *rightScreenEdgeGestureRecognizer;
-
-@property (nonatomic, strong) UINavigationController *contentNavigationViewController;
-@property (nonatomic, strong) UIViewController *menuViewController;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UIGravityBehavior *gravityBehaviour;
@@ -43,25 +44,17 @@
     [self.view addGestureRecognizer:self.rightScreenEdgeGestureRecognizer];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [super prepareForSegue:segue sender:sender];
-    
-    if ([segue.identifier isEqualToString:@"contentViewController"]) {
-        self.contentNavigationViewController = segue.destinationViewController;
-        
-        TLContentViewController *contentViewController = (TLContentViewController *)[segue.destinationViewController topViewController];
-        contentViewController.delegate = self;
-    }
-    else if ([segue.identifier isEqualToString:@"menuViewController"]) {
-        self.menuViewController = segue.destinationViewController;
-    }
-}
-
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Import to call this only after our view hierarchy is set up.
+    // Important to call this only after our view is on screen (ie: we can trust the view geometry).
     [self setupContentViewControllerAnimatorProperties];
+    
+    self.contentView.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.contentView.layer.shadowOpacity = 1.0f;
+    self.contentView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.contentView.bounds] CGPath];
+    self.contentView.layer.shadowOffset = CGSizeZero;
+    self.contentView.layer.shadowRadius = 5.0f;
 }
 
 -(void)setupContentViewControllerAnimatorProperties {
@@ -69,24 +62,33 @@
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     
-    UICollisionBehavior *collisionBehaviour = [[UICollisionBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
+    UICollisionBehavior *collisionBehaviour = [[UICollisionBehavior alloc] initWithItems:@[self.contentView]];
     // Need to create a boundary that lies to the left off of the right edge of the screen.
     [collisionBehaviour setTranslatesReferenceBoundsIntoBoundaryWithInsets:UIEdgeInsetsMake(0, 0, 0, -280)];
     [self.animator addBehavior:collisionBehaviour];
     
-    self.gravityBehaviour = [[UIGravityBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
+    self.gravityBehaviour = [[UIGravityBehavior alloc] initWithItems:@[self.contentView]];
     self.gravityBehaviour.xComponent = -1.0f;
     self.gravityBehaviour.yComponent = 0.0f;
     [self.animator addBehavior:self.gravityBehaviour];
     
-    self.pushBehavior = [[UIPushBehavior alloc] initWithItems:@[self.contentNavigationViewController.view] mode:UIPushBehaviorModeInstantaneous];
+    self.pushBehavior = [[UIPushBehavior alloc] initWithItems:@[self.contentView] mode:UIPushBehaviorModeInstantaneous];
     self.pushBehavior.magnitude = 0.0f;
     self.pushBehavior.angle = 0.0f;
     [self.animator addBehavior:self.pushBehavior];
     
-    UIDynamicItemBehavior *itemBehaviour = [[UIDynamicItemBehavior alloc] initWithItems:@[self.contentNavigationViewController.view]];
+    UIDynamicItemBehavior *itemBehaviour = [[UIDynamicItemBehavior alloc] initWithItems:@[self.contentView]];
     itemBehaviour.elasticity = 0.45f;
     [self.animator addBehavior:itemBehaviour];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [super prepareForSegue:segue sender:sender];
+    
+    if ([segue.identifier isEqualToString:@"contentViewController"]) {
+        TLContentViewController *contentViewController = (TLContentViewController *)[segue.destinationViewController topViewController];
+        contentViewController.delegate = self;
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate Methods
@@ -106,12 +108,12 @@
 
 -(void)handleScreenEdgePan:(UIScreenEdgePanGestureRecognizer *)gestureRecognizer {
     CGPoint location = [gestureRecognizer locationInView:self.view];
-    location.y = CGRectGetMidY(self.contentNavigationViewController.view.bounds);
+    location.y = CGRectGetMidY(self.contentView.bounds);
     
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [self.animator removeBehavior:self.gravityBehaviour];
         
-        self.panAttachmentBehaviour = [[UIAttachmentBehavior alloc] initWithItem:self.contentNavigationViewController.view attachedToAnchor:location];
+        self.panAttachmentBehaviour = [[UIAttachmentBehavior alloc] initWithItem:self.contentView attachedToAnchor:location];
         [self.animator addBehavior:self.panAttachmentBehaviour];
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
