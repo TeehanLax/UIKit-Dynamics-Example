@@ -68,8 +68,7 @@
     [self.animator addBehavior:collisionBehaviour];
     
     self.gravityBehaviour = [[UIGravityBehavior alloc] initWithItems:@[self.contentView]];
-    self.gravityBehaviour.xComponent = -1.0f;
-    self.gravityBehaviour.yComponent = 0.0f;
+    self.gravityBehaviour.gravityDirection = CGSizeMake(-1, 0);
     [self.animator addBehavior:self.gravityBehaviour];
     
     self.pushBehavior = [[UIPushBehavior alloc] initWithItems:@[self.contentView] mode:UIPushBehaviorModeInstantaneous];
@@ -128,18 +127,18 @@
             // Open menu
             self.menuOpen = YES;
             
-            self.gravityBehaviour.xComponent = 1.0f;
+            self.gravityBehaviour.gravityDirection = CGSizeMake(1, 0);
         }
         else {
             // Close menu
             self.menuOpen = NO;
             
-            self.gravityBehaviour.xComponent = -1.0f;
+            self.gravityBehaviour.gravityDirection = CGSizeMake(-1, 0);
         }
         
         [self.animator addBehavior:self.gravityBehaviour];
         
-        [self.pushBehavior setXComponent:velocity.x/10.0f yComponent:0];
+        self.pushBehavior.pushDirection = CGSizeMake(velocity.x / 10.0f, 0);
         self.pushBehavior.active = YES;
     }
 }
@@ -147,7 +146,7 @@
 #pragma mark - TLContentViewControllerDelegate Methods
 
 -(void)contentViewControllerDidPressBounceButton:(TLContentViewController *)viewController {
-    [self.pushBehavior setXComponent:35.0f yComponent:0.0f];
+    self.pushBehavior.pushDirection = CGSizeMake(35.0f, 0.0f);
     // active is set to NO once the instantaneous force is applied. All we need to do is reactivate it on each button press.
     self.pushBehavior.active = YES;
 }
