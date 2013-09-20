@@ -1,7 +1,7 @@
 UIKit-Dynamics-Example
 ======================
 
-An example of a sidebar menu animated completely with UIKit Dynamics on iOS 7. 
+An example of a sidebar menu animated completely with UIKit Dynamics on iOS 7. See [this tutorial](http://www.teehanlax.com/blog/introduction-to-uikit-dynamics/) for more info. 
 
 First, we demonstrate how to use instantaneous force to bounce the menu:
 
