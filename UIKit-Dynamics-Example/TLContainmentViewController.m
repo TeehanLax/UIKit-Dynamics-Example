@@ -96,7 +96,7 @@
     if (gestureRecognizer == self.leftScreenEdgeGestureRecognizer && self.isMenuOpen == NO) {
         return YES;
     }
-    else if (gestureRecognizer == self.rightScreenEdgeGestureRecognizer == self.isMenuOpen == YES) {
+    else if (gestureRecognizer == self.rightScreenEdgeGestureRecognizer && self.isMenuOpen == YES) {
         return YES;
     }
     
